@@ -5,12 +5,12 @@ from bson.json_util import loads
 from flask_bootstrap import Bootstrap
 import os
 import certifi
-import config
+
 import pymongo
 import datetime as dt
 import safe_config
 
-
+app = Flask(__name__)
 ca = certifi.where()
 on_heroku=False
 if 'on_heroku' in os.environ:
@@ -19,13 +19,14 @@ if 'on_heroku' in os.environ:
     secret_key = os.environ['secret_key']
     cluster = pymongo.MongoClient(cluster_uri)
 else:
+    
     from config import cluster_uri
     cluster = pymongo.MongoClient(cluster_uri,tlsCAFile=ca)
     secret_key = config.secret_key
-
-app = Flask(__name__)
+    
 app.config['SECRET_KEY'] = secret_key
-app.config['DEBUG'] =True
+#app.config['DEBUG'] =True
+
 bootstrap = Bootstrap(app)
 db = cluster['bordercross']
 def arg_getter(items):
