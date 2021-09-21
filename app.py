@@ -43,8 +43,10 @@ def dict_cleaner(d):
         if d['id'] !='all':
             try:
                 val =int(d.pop('id'))
+                d.update({'crossing_id':val})
             except:
                 d.pop('id')
+            
     if 'start_date' in d:
         st = dt.datetime.strptime(d['start_date'], "%Y-%m-%d")
         d.pop('start_date')
